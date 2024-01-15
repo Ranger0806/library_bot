@@ -24,7 +24,7 @@ async def cmd_start(message: Message):
     except Exception as e:
         await message.answer("Unexpected error")
 
-@router.message(Command("admin") and AdmFilter(role=ROLE) and StatusFilter(status=SET_STATUS_DEFAULT))
+@router.message(Command("admin") and AdmFilter(role=ROLE))
 async def cmd_start(message: Message):
     try:
         db = LibraryDB()

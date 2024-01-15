@@ -18,6 +18,7 @@ async def prose_callback(call_back: CallbackQuery):
     try:
         db = LibraryDB()
         await db.set_folder(user_id=call_back.from_user.id, folder="prose")
+        await db.set_status(user_id=call_back.from_user.id, status=SET_STATUS_LOAD)
         folder_name = "prose"
         if not os.path.exists(folder_name):
             os.makedirs(folder_name)
@@ -31,7 +32,7 @@ async def upload_file(message: Message.content_type = "file"):
     bot = Bot(token=BOT_TOKEN)
     db = LibraryDB()
     await bot.download(file=message.document,
-                       destination=f"{await db.get_folder(user_id=message.from_user.id)}\\{str(message.document)}")
+                       destination=f"{await db.get_folder(user_id=message.from_user.id)}\\{message.document.file_name}")
     if os.path.isfile(
             f"{await db.get_folder(user_id=message.from_user.id)}\\{str(message.document.file_name)}"):
         pass

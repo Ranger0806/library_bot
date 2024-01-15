@@ -28,10 +28,10 @@ async def prose_callback(call_back: CallbackQuery):
         else:
             str_files = ""
             for i in os.listdir(folder_name):
-                str_files += i + "\n"
+                str_files += f"`{i}`\n"
             await call_back.message.answer(
-                f"Список доступных книг.\n\n{str_files}\nОтправьте название книг или кгиги чтобы получить их. Введите название в формате (название.расширение) (так же вы можете вводить несколько книг через 'файл.расширение, файл.расширение и т.д' либо введя их в сообщении по одному в столбик)*",
-                reply_markup=create_keybord())
+                f"Список доступных книг.\n\n{str_files}\n*Отправьте название книг или кгиги чтобы получить их.*",
+                reply_markup=create_keybord(), parse_mode="Markdown")
             await call_back.answer("Запрос выполнен!")
 
     except Exception as e:
@@ -40,7 +40,7 @@ async def prose_callback(call_back: CallbackQuery):
         await call_back.answer("Please try again")
 
 
-@router.message(StatusFilter(status=SET_STATUS_WATCH) and AdmFilter(role=SET_STATUS_DEFAULT))
+@router.message(StatusFilter(status=SET_STATUS_WATCH))
 async def get_book(message: Message):
     db = LibraryDB()
     bot = Bot(token=BOT_TOKEN)
